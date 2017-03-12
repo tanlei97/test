@@ -39,12 +39,7 @@ table { border-collapse:collapse; border-spacing:0; }
 .clearfloat{
 	zoom: 1;
 }
-.show{
-	display: block;
-}
-.hide{
-	display:none;
-}
+
 .imgNum .active{
 	background-color: #FF7700;;
 }

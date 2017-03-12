@@ -1,396 +1,514 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<title>电商网站首页</title>
-	<link  rel="stylesheet"  type="text/css" href="css/new_file.css" />
-	<link rel="stylesheet" href="css/shopping.css" type="text/css" />
-	<!--[if IE 6]>
-<script type="text/javascript" src="js/DD_belatedPNG_0.0.8a-min.js"></script>
-<script type="text/javascript" src="js/ie6Fixpng.js"></script>
-<![endif]-->
-<script type="text/javascript">
-	window.onload=function(){
-		 var list = document.getElementById('list');
-		  var buttons = document.getElementById('buttons').getElementsByTagName('span');
-		  var index=1;
-		  var time = 300;
-          var inteval = 100;
-          var offset=-810;
-          var speed = offset/(time/inteval);
-		 var timer;
-		 timer=setInterval(function(offset){
-		 	list.style.left=parseInt(list.style.left)+speed+"px"
-		 },1000)
-	}
-</script>
-</head>
-<body>
-	<div class="header">
-		<div class="comwidth">
-			<div class="collection fl">收藏慕课</div>
-			<div class="fr">欢迎来到慕课网！<a href="">[登陆]</a><a href="">[免费注册]</a></div>
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<metahttp-equiv="X-UA-Compatible"content="IE=9; IE=8; IE=7; IE=EDGE"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+		<title>电商网站</title>
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/reset.css">
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+        <script src="js/scrop.js"></script>
+		<script>
+		$(document).ready(function(){
+			var navItems=$(".nav-items");
+			navItems.hover(function(){
+				$(this).addClass("active");
+				$(this).children(".nav-rightArea").css("display","block")
+			},function(){
+                $(this).removeClass("active");
+                $(this).children(".nav-rightArea").css("display","none")
+			})
+			var container = $('#container');
+            var list = $('#list');
+            var buttons = $('#buttons span');
+            var prev = $('#prev');
+            var next = $('#next');
+            var index = 1;
+            var len = 3;
+            var interval = 3000;
+            var timer; 
+            function animate (offset) {
+                var left = parseInt(list.css('left')) + offset;
+                if (offset>0) {
+                    offset = '+=' + offset;
+                }
+                else {
+                    offset = '-=' + Math.abs(offset);
+                }
+                list.animate({'left': offset}, 300, function () {
+                    if(left > -810){
+                        list.css('left', -810 * len);
+                    }
+                    if(left < (-810 * len)) {
+                        list.css('left', -810);
+                    }
+                });
+            }
+              function showButton() {
+                buttons.eq(index-1).addClass('on').siblings().removeClass('on');
+            }
+
+            function play() {
+                timer = setTimeout(function () {
+                    next.trigger('click');
+                    play();
+                }, interval);
+            }
+            function stop() {
+                clearTimeout(timer);
+            }
+
+            next.bind('click', function () {
+                if (list.is(':animated')) {
+                    return;
+                }
+                if (index == 3) {
+                    index = 1;
+                }
+                else {
+                    index += 1;
+                }
+                animate(-810);
+                showButton();
+            });
+
+            prev.bind('click', function () {
+                if (list.is(':animated')) {
+                    return;
+                }
+                if (index == 1) {
+                    index = 3;
+                }
+                else {
+                    index -= 1;
+                }
+                animate(810);
+                showButton();
+            });
+
+            buttons.each(function () {
+                 $(this).bind('click', function () {
+                     if (list.is(':animated') || $(this).attr('class')=='on') {
+                         return;
+                     }
+                     var myIndex = parseInt($(this).attr('index'));
+                     var offset = -810 * (myIndex - index);
+
+                     animate(offset);
+                     index = myIndex;
+                     showButton();
+                 })
+            });
+
+            container.hover(stop, play);
+
+            play();
+
+		})
+		</script>
+	</head>
+	<body>
+		<!-- 头部分 -->
+		<div class="head">
+			<div class="comwidth">
+				<div class="collection fl">
+				<a href="javascript:void(0);">收藏慕课</a>
+			    </div>
+			  <div class="fr">
+				<span>欢迎来到慕课网！</span><a href="">[登陆]</a><a href="">[免费注册]</a>&nbsp;&nbsp;<a href="">我的订单</a>
+			  </div>
 			</div>
-	</div>
-	<div class="topBar">
-	<div class="comwidth">
-		<div class="logo fl">
-			<a href="#">
-				<img src="img/logo.png" alt="慕课网"/>
-			</a>
 		</div>
-		<div class="search fl">
-			<div class="search-box">
-				<input type="text" name="" class="search-text fl" value="" />
-				<input type="button" name="" class="search-btn fr" value="搜 索" />
-				
-			</div>
-			
-		</div>
-		<div class="shop fr">
-			<div class="shop-car fl">购物车</div>
-			<div class="shop-num fl">10</div>
-		</div>
-	</div>
-	</div>
-	<div class="navBox clearfloat">
-		<div class="comwidth">
-			<div class="shopClass fl">
-				<h3>全部商品分类</h3>
-				<!--
-                	作者：595315277@qq.com
-                	时间：2017-02-20
-                	描述：暂缺列表
-                -->
-                <div class="shopclass-show ">
-                	<dl class="shopclass-item">
-                		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="b">合约机</a></dt>
-                		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
-                	</dl>
-                	<dl class="shopclass-item">
-                		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="b">合约机</a></dt>
-                		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
-                	</dl>
-                	<dl class="shopclass-item">
-                		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="b">合约机</a></dt>
-                		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
-                	</dl>
-                	<dl class="shopclass-item">
-                		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="b">合约机</a></dt>
-                		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
-                	</dl>
-                	<dl class="shopclass-item">
-                		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="b">合约机</a></dt>
-                		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
-                	</dl>
+		<!-- logo部分 -->
+		<div class="topBar">
+			<div class="comwidth">
+				<div class="logo fl"><a href=""></a></div>
+                <div class="search fl">
+                	<input type="text" class="search-text fl" >
+                	<input type="button" class="search-btn fr" value="搜  索" >
                 </div>
-			<div class="shopclass-list  hide">
-			<div class="shoplist-cont">
-					<dl class="shoplist-item ">
-					<dt>电脑装机</dt>
-					<dd>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-					</dd>
-					</dl>
-					<dl class="shoplist-item ">
-					<dt>电脑装机</dt>
-					<dd>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-					</dd>
-					</dl>
-				<dl class="shoplist-item ">
-					<dt>电脑装机</dt>
-					<dd>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-					</dd>
-					</dl>
-					<dl class="shoplist-item ">
-					<dt>电脑装机</dt>
-					<dd>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-					</dd>
-					</dl>
-					<dl class="shoplist-item ">
-					<dt>电脑装机</dt>
-					<dd>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-						<a href="">大倒海</a>
-					</dd>
-					</dl>
-					<div class="shoplist-link">
-				<a href="">
-					文字测试啊66 <span></span>
-				</a>
-				<a href="">
-					文字测试啊66 <span></span>
-				</a>
+                <div class="shop fr">
+                	<div class="shop-car fl">购物车</div>
+                	<div class="shop-num fr"><span>19</span></div>
+                </div>
 			</div>
+		</div>
+		<!-- 导航部分 -->
+		<div class="nav clearfloat">
+			<div class="navBox comwidth ">
+				<div class="nav-right clearfloat">
+					<h3>全部商品分类</h3>
+                     <div class="nav-leftArea " id="nav-leftArea">
+                     	<dl class="nav-items">
+                     		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="on">合约机</a></dt>
+                     		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
+                             <div class="nav-rightArea" style="display:none;">
+                             	<div class="nav-rightAreacom ">
+                             		<dl><dt><a href="">电脑整机</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">电脑整机</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">电脑整机</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">电脑整机</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">电脑整机</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">电脑整机</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<div class="nav-rightArea-more">
+                             			<div class=nav-more-link>
+                             				<a href="">电脑整机频道<span></span></a><a href="">电脑整机频道<span></span></a>
+                             			</div>
+                             		</div>
+                             	</div>
+                             </div>
+                        </dl>
+                        <dl class="nav-items ">
+                     		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="on">合约机</a></dt>
+                     		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
+                     		<div class="nav-rightArea" style="display:none;">
+                             	<div class="nav-rightAreacom ">
+                             		<dl><dt><a href="">音频设备</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">音频设备</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">音频设备</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">音频设备</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">音频设备</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">音频设备</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<div class="nav-rightArea-more">
+                             			<div class=nav-more-link>
+                             				<a href="">正版软件频道<span></span></a><a href="">布线工具频道<span></span></a>
+                             			</div>
+                             		</div>
+                             	</div>
+                             </div>
+                        </dl>
+                        <dl class="nav-items">
+                     		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="on">合约机</a></dt>
+                     		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
+                     		<div class="nav-rightArea" style="display:none;">
+                             	<div class="nav-rightAreacom ">
+                             		<dl><dt><a href="">手机配件</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">手机配件</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">手机配件</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">手机配件</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">手机配件</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">手机配件</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<div class="nav-rightArea-more">
+                             			<div class=nav-more-link>
+                             				<a href="">游戏外设频道<span></span></a><a href="">游戏外设频道<span></span></a>
+                             			</div>
+                             		</div>
+                             	</div>
+                             </div>
+                        </dl>
+                        <dl class="nav-items">
+                     		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="on">合约机</a></dt>
+                     		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
+                     		<div class="nav-rightArea" style="display:none;">
+                             	<div class="nav-rightAreacom ">
+                             		<dl><dt><a href="">装机匹配</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">装机匹配</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">装机匹配</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">装机匹配</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">装机匹配</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">装机匹配</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<div class="nav-rightArea-more">
+                             			<div class=nav-more-link>
+                             				<a href="">电脑整机频道<span></span></a><a href="">电脑整机频道<span></span></a>
+                             			</div>
+                             		</div>
+                             	</div>
+                             </div>
+                        </dl>
+                        <dl class="nav-items">
+                     		<dt><a href="">手机</a> <a href="">数码</a> <a href="" class="on">粮油</a></dt>
+                     		<dd><a href="">荣耀3x</a> <a href="">单反</a>    <a href="">智能设备</a></dd>
+                     		<div class="nav-rightArea" style="display:none;">
+                             	<div class="nav-rightAreacom ">
+                             		<dl><dt><a href="">手机维修</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">手机维修</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">手机维修</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">手机维修</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a></dd></dl>
+                             		<dl><dt><a href="">手机维修</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<dl><dt><a href="">手机维修</a></dt><dd><a href="">笔记本</a><a href="">超级电脑</a><a href="">上网本</a><a href="">平板电脑</a><a href="">台式机</a></dd></dl>
+                             		<div class="nav-rightArea-more">
+                             			<div class=nav-more-link>
+                             				<a href="">手机维修地点<span></span></a><a href="">手机大卖场<span></span></a>
+                             			</div>
+                             		</div>
+                             	</div>
+                             </div>
+                        </dl>
+                       
+                     </div>
+
+				</div>
+				<ul class="nav-sub fl">
+					<li><a href="" class="on">数码城</a></li>
+					<li><a href="">天黑黑</a></li>
+					<li><a href="">团购</a></li>
+					<li><a href="">发现</a></li>
+					<li><a href="">二手特卖</a></li>
+					<li><a href="">名品会</a></li>
+				</ul>
+
+			</div>
+         <!--轮播图 -->
+		</div>
+		<!-- 轮播图 -->
+		<div class="banner comwidth">
+			<div class="bannerBox clearfloat" id="container">
+				<ul class="bannerBox-images" id="list" style="left: -810px;">
+					<li><a href=""><img src="imges/banner-2.png" height="326" width="811" alt="ddd"></a></li>
+					<li><a href=""><img src="imges/banner-bar.png" height="350" width="825" alt="慕课网"></a></li>
+					<li><a href=""><img src="imges/banner-2.png" height="326" width="811" alt="ddd"></a></li>
+					<li><a href=""><img src="imges/banner-2.png" height="326" width="811" alt="ddd"></a></li>
+					<li><a href=""><img src="imges/banner-bar.png" height="350" width="825" alt="慕课网"></a></li>
+				</ul>
+				<div class="btn" id="buttons">
+				<span index="1" class="on"></span>
+				<span index="2"></span>
+				<span index="2"></span>
+				</div>
+				<a href="javascript:;" id="prev" class="arrow">&lt;</a>
+                <a href="javascript:;" id="next" class="arrow">&gt;</a>
+			</div>
+		</div>
+		<!-- 内容部分-->
+		<div class="h-15"></div>
+		<div class="content comwidth" id="item1">
+			<div class="shopTitle clearfloat">
+				<div class="shopTitle-left fl">
+					<img src="imges/shopTItlogo.png" height="45" width="44" alt=""><span>家用电脑</span>
+				</div>
+				<div class="shopTitle-right fr">
+					<a href="">更多&gt;&gt;</a>
 				</div>
 			</div>
-			
-			</div>
-			<ul class="nav fl">
-				<li class="nactive"><a href="">数码城</a></li>
-				<li><a href="">天黑黑</a></li>
-				<li><a href="">团购</a></li>
-				<li><a href="">发现</a></li>
-				<li><a href="">二手特卖</a></li>
-				<li><a href="">名品会</a></li>
-			</ul>
-		</div>
-		
-	</div>
-	<div class="banner comwidth clearfloat">
-		<div class="banner-bar  banner-big">
-			<ul id="list"  class="imgBox" style="left: 0px;">
-				<li><a href=""><img src="img/banner-bar.png" alt=""/></a></li>
-				<li><a href=""><img src="img/banner-2.png" alt=""/></a></li>
-			</ul>
-			<div id="buttons" class="imgNum">
-				<span index="1" class="active"></span>
-				<span index="2" href=""></span>
-			</div>
-		</div>
-	</div>
-	<div class="shopTit comwidth">
-		<span class="icon"></span>
-		<h3>家用电脑</h3>
-		<a href="" class="more">更多&gt;&gt;</a>
-	</div>
-	<div class="shopList comwidth clearfloat">
-		<div class="leftArea fl">
-			<div class="banner-bar banner-sm">
-			<ul class="imgBox">
-				<li><a href=""><img src="img/shop-ad.png" alt=""/></a></li>
-				<li><a href=""><img src="img/banner-2.png" alt=""/></a></li>
-			</ul>
-			<div class="imgNum">
-				<a href="" class="active"></a><a href=""></a>
-			</div>
-		
-		    </div>
-	    </div>
-	    <div class="rightArea fr">
-	    	<div class="shopList-top clearfloat">
-	    		<div class="shop-iteam fl">
-	    			<div class="shop-img">
-	    				<a href=""><img src="img/htc.png"alt="HTc"/> </a>
-	    				
-	    			</div>
-	    			<h3>HTC新渴望8系列</h3> <p>1899元</p>
-	    		</div>
-	    		<div class="shop-iteam fl">
-	    			<div class="shop-img">
-	    				<a href=""><img src="img/htc.png"alt="HTc"/> </a>
-	    				
-	    			</div>
-	    			<h3>HTC新渴望8系列</h3> <p>1899元</p>
-	    		</div>
-	    		<div class="shop-iteam fl">
-	    			<div class="shop-img">
-	    				<a href=""><img src="img/htc.png"alt="HTc"/> </a>
-	    				
-	    			</div>
-	    			<h3>HTC新渴望8系列</h3> <p>1899元</p>
-	    		</div>
-	    		<div class="shop-iteam fl">
-	    			<div class="shop-img">
-	    				<a href=""><img src="img/htc.png"alt="HTc"/> </a>
-	    				
-	    			</div>
-	    			<h3>HTC新渴望8系列</h3> <p>1899元</p>
-	    		</div>
-	    	</div>
-	    	<div class="shopList-sm clearfloat">
-	    		<div class="shopSm-item fl">
-	    			<div class="shopSm-img fl">
-	    				<a href=""><img src="img/htc.png"/></a>
-	    			</div>
-	    			<div class="shopSm-text fl">
-	    				<p>NFC技术一碰轻松
-配对！接触屏幕</p><h3>Y149</h3>
-	    			</div>
-	    		</div>
-	    		<div class="shopSm-item fl">
-	    			<div class="shopSm-img fl">
-	    				<a href=""><img src="img/htc.png"/></a>
-	    			</div>
-	    			<div class="shopSm-text fl">
-	    				<p>NFC技术一碰轻松
-配对！接触屏幕</p><h3>Y149</h3>
-	    			</div>
-	    		</div>
-	    		<div class="shopSm-item fl">
-	    			<div class="shopSm-img fl">
-	    				<a href=""><img src="img/htc.png"/></a>
-	    			</div>
-	    			<div class="shopSm-text fl">
-	    				<p>NFC技术一碰轻松
-配对！接触屏幕</p><h3>Y149</h3>
-	    			</div>
-	    		</div>
-	    		<div class="shopSm-item fl">
-	    			<div class="shopSm-img fl">
-	    				<a href=""><img src="img/htc.png"/></a>
-	    			</div>
-	    			<div class="shopSm-text fl">
-	    				<p>NFC技术一碰轻松
-配对！接触屏幕</p><h3>Y149</h3>
-	    			</div>
-	    		</div>
-	    	</div>
-	    </div>
-	</div>
-	<div class="shopTit comwidth">
-		<span class="icon"></span>
-		<h3>食品酒水</h3>
-		<a href="" class="more">更多&gt;&gt;</a>
-	</div>
-	<div class="shopList comwidth clearfloat">
-		<div class="leftArea fl">
-			<div class="banner-bar banner-sm">
-			<ul class="imgBox">
-				<li><a href=""><img src="img/shop-ad.png" alt=""/></a></li>
-				<li><a href=""><img src="img/banner-2.png" alt=""/></a></li>
-			</ul>
-			<div class="imgNum">
-				<a href="" class="active"></a><a href=""></a>
-			</div>
-		
-		    </div>
-	    </div>
-	    <div class="rightArea fr">
-	    	<div class="shopList-top clearfloat">
-	    		<div class="shop-iteam fl">
-	    			<div class="shop-img">
-	    				<a href=""><img src="img/htc.png"alt="HTc"/> </a>
-	    				
-	    			</div>
-	    			<h3>HTC新渴望8系列</h3> <p>1899元</p>
-	    		</div>
-	    		<div class="shop-iteam fl">
-	    			<div class="shop-img">
-	    				<a href=""><img src="img/htc.png"alt="HTc"/> </a>
-	    				
-	    			</div>
-	    			<h3>HTC新渴望8系列</h3> <p>1899元</p>
-	    		</div>
-	    		<div class="shop-iteam fl">
-	    			<div class="shop-img">
-	    				<a href=""><img src="img/htc.png"alt="HTc"/> </a>
-	    				
-	    			</div>
-	    			<h3>HTC新渴望8系列</h3> <p>1899元</p>
-	    		</div>
-	    		<div class="shop-iteam fl">
-	    			<div class="shop-img">
-	    				<a href=""><img src="img/htc.png"alt="HTc"/> </a>
-	    				
-	    			</div>
-	    			<h3>HTC新渴望8系列</h3> <p>1899元</p>
-	    		</div>
-	    	</div>
-	    	<div class="shopList-sm clearfloat">
-	    		<div class="shopSm-item fl">
-	    			<div class="shopSm-img fl">
-	    				<a href=""><img src="img/htc.png"/></a>
-	    			</div>
-	    			<div class="shopSm-text fl">
-	    				<p>NFC技术一碰轻松
-配对！接触屏幕</p><h3>Y149</h3>
-	    			</div>
-	    		</div>
-	    		<div class="shopSm-item fl">
-	    			<div class="shopSm-img fl">
-	    				<a href=""><img src="img/htc.png"/></a>
-	    			</div>
-	    			<div class="shopSm-text fl">
-	    				<p>NFC技术一碰轻松
-配对！接触屏幕</p><h3>Y149</h3>
-	    			</div>
-	    		</div>
-	    		<div class="shopSm-item fl">
-	    			<div class="shopSm-img fl">
-	    				<a href=""><img src="img/htc.png"/></a>
-	    			</div>
-	    			<div class="shopSm-text fl">
-	    				<p>NFC技术一碰轻松
-配对！接触屏幕</p><h3>Y149</h3>
-	    			</div>
-	    		</div>
-	    		<div class="shopSm-item fl">
-	    			<div class="shopSm-img fl">
-	    				<a href=""><img src="img/htc.png"/></a>
-	    			</div>
-	    			<div class="shopSm-text fl">
-	    				<p>NFC技术一碰轻松
-配对！接触屏幕</p><h3>Y149</h3>
-	    			</div>
-	    		</div>
-	    	</div>
-	    </div>
-	</div>
-	<div class="footer">
-		<div class="footer-text">
-			<p>慕课简介|慕课公告| 招纳贤士| 联系我们|客服热线：400-675-1234</p>
-			<p>Copyright © 2006 - 2014 慕课版权所有   &nbsp; &nbsp; 京ICP备09037834号   &nbsp; &nbsp;京ICP证B1034-8373号    &nbsp; &nbsp;某市公安局XX分局备案编号：123456789123</p>
-		</div>
-		<div class="footer-img">
-			<img src="img/footer.png" alt=""/>
-			<img src="img/footer.png" alt=""/>
-			<img src="img/footer.png" alt=""/>
-			<img src="img/footer.png" alt=""/> 
-		</div>
 
-	</div>
-</body>
-</html>
+			<div class="shopList clearfloat">
+				<div class="shopList-leftArea fl">
+					
+				<ul class="imgBox-2"><li><a href=""><img src="imges/ad.png" height="400" width="190" alt=""></a></li><li><a href=""><img src="imges/ad.png" alt=""></a></li><li><a href=""><img src="imges/ad.png" alt=""></a></li></ul>
+					
+				<div class="btn-2">
+				<span index="1" class="on"></span>
+				<span index="2"></span>
+				<span index="2"></span>
+				</div>
+				</div>
+				<div class="shopList-rightArea fl">
+					<div class="shopList-up clearfloat">
+						<div class="shopList-items fl">
+							<div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+						</div>
+						<div class="shopList-items fl">
+							<div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+						</div>
+						<div class="shopList-items fl">
+							<div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+						</div>
+						<div class="shopList-items fl">
+							<div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+						</div>
+					</div>
+					<div class="shopList-low clearfloat">
+						<div class="elc-items fl">
+							<div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+						</div>
+						<div class="elc-items fl">
+							<div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+						</div>
+						<div class="elc-items fl">
+							<div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+						</div>
+						<div class="elc-items fl">
+							<div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="h-15"></div>
+		<div class="content comwidth" id="item2">
+			<div class="shopTitle clearfloat">
+				<div class="shopTitle-left fl">
+					<img src="imges/shopTItlogo.png" height="45" width="44" alt=""><span>润肤洗发</span>
+				</div>
+				<div class="shopTitle-right fr">
+					<a href="">更多&gt;&gt;</a>
+				</div>
+			</div>
+
+			<div class="shopList clearfloat">
+				<div class="shopList-leftArea fl">
+					
+				<ul class="imgBox-2"><li><a href=""><img src="imges/ad.png" height="400" width="190" alt=""></a></li><li><a href=""><img src="imges/ad.png" alt=""></a></li><li><a href=""><img src="imges/ad.png" alt=""></a></li></ul>
+					
+				<div class="btn-2">
+				<span index="1" class="on"></span>
+				<span index="2"></span>
+				<span index="2"></span>
+				</div>
+				</div>
+				<div class="shopList-rightArea fl">
+					<div class="shopList-up clearfloat">
+						<div class="shopList-items fl">
+							<div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+						</div>
+						<div class="shopList-items fl">
+							<div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+						</div>
+						<div class="shopList-items fl">
+							<div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+						</div>
+						<div class="shopList-items fl">
+							<div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+						</div>
+					</div>
+					<div class="shopList-low clearfloat">
+						<div class="elc-items fl">
+							<div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+						</div>
+						<div class="elc-items fl">
+							<div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+						</div>
+						<div class="elc-items fl">
+							<div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+						</div>
+						<div class="elc-items fl">
+							<div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="h-15"></div>
+        <div class="content comwidth" id="item3">
+            <div class="shopTitle clearfloat">
+                <div class="shopTitle-left fl">
+                    <img src="imges/shopTItlogo.png" height="45" width="44" alt=""><span>食品酒水</span>
+                </div>
+                <div class="shopTitle-right fr">
+                    <a href="">更多&gt;&gt;</a>
+                </div>
+            </div>
+
+            <div class="shopList clearfloat">
+                <div class="shopList-leftArea fl">
+                    
+                <ul class="imgBox-2"><li><a href=""><img src="imges/ad.png" height="400" width="190" alt=""></a></li><li><a href=""><img src="imges/ad.png" alt=""></a></li><li><a href=""><img src="imges/ad.png" alt=""></a></li></ul>
+                    
+                <div class="btn-2">
+                <span index="1" class="on"></span>
+                <span index="2"></span>
+                <span index="2"></span>
+                </div>
+                </div>
+                <div class="shopList-rightArea fl">
+                    <div class="shopList-up clearfloat">
+                        <div class="shopList-items fl">
+                            <div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+                        </div>
+                        <div class="shopList-items fl">
+                            <div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+                        </div>
+                        <div class="shopList-items fl">
+                            <div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+                        </div>
+                        <div class="shopList-items fl">
+                            <div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+                        </div>
+                    </div>
+                    <div class="shopList-low clearfloat">
+                        <div class="elc-items fl">
+                            <div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+                        </div>
+                        <div class="elc-items fl">
+                            <div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+                        </div>
+                        <div class="elc-items fl">
+                            <div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+                        </div>
+                        <div class="elc-items fl">
+                            <div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-15"></div>
+        <div class="content comwidth" id="item4">
+            <div class="shopTitle clearfloat">
+                <div class="shopTitle-left fl">
+                    <img src="imges/shopTItlogo.png" height="45" width="44" alt=""><span>母婴用品</span>
+                </div>
+                <div class="shopTitle-right fr">
+                    <a href="">更多&gt;&gt;</a>
+                </div>
+            </div>
+
+            <div class="shopList clearfloat">
+                <div class="shopList-leftArea fl">
+                    
+                <ul class="imgBox-2"><li><a href=""><img src="imges/ad.png" height="400" width="190" alt=""></a></li><li><a href=""><img src="imges/ad.png" alt=""></a></li><li><a href=""><img src="imges/ad.png" alt=""></a></li></ul>
+                    
+                <div class="btn-2">
+                <span index="1" class="on"></span>
+                <span index="2"></span>
+                <span index="2"></span>
+                </div>
+                </div>
+                <div class="shopList-rightArea fl">
+                    <div class="shopList-up clearfloat">
+                        <div class="shopList-items fl">
+                            <div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+                        </div>
+                        <div class="shopList-items fl">
+                            <div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+                        </div>
+                        <div class="shopList-items fl">
+                            <div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+                        </div>
+                        <div class="shopList-items fl">
+                            <div class="phone"><img src="imges/htc.png" height="151" width="133" alt=""></div><h3>HTC新渴望8系列</h3><p>1899元</p>
+                        </div>
+                    </div>
+                    <div class="shopList-low clearfloat">
+                        <div class="elc-items fl">
+                            <div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+                        </div>
+                        <div class="elc-items fl">
+                            <div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+                        </div>
+                        <div class="elc-items fl">
+                            <div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+                        </div>
+                        <div class="elc-items fl">
+                            <div class="elc fl"><img src="imges/htc.png" height="75" width="75" alt=""></div> <div class="elc-text"><h3>NFC技术一碰轻松配对！接触屏幕</h3><p>￥149.00</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- 底部-->
+		<div class="h-25"></div>
+    		<div class="footer">
+		  <div class="footer-text">
+			<p>商城简介|商城公告| 招纳贤士| 联系我们|客服热线：400-675-1234</p>
+			<p>Copyright © 2006 - 2014 商城版权所有   &nbsp; &nbsp; 京ICP备09037834号   &nbsp; &nbsp;京ICP证B1034-8373号    &nbsp; &nbsp;某市公安局XX分局备案编号：123456789123</p>
+		  </div>
+		   <div class="footer-img">
+			<img src="imges/footer.png" height="46" width="128" alt=""><img src="imges/footer.png" height="46" width="128" alt=""><img src="imges/footer.png" height="46" width="128" alt=""><img src="imges/footer.png" height="46" width="128" alt="">
+		   </div>
+
+	     </div>
+         <div id="menu">
+             
+                <a href="#item1">电脑</a>
+                <a href="#item2">洗发</a>
+                <a href="#item3">食品</a>
+                <a href="#item4">母婴</a>
+                <a href="javascript:void(0);">顶部</a>
+         </div>
+        
+    
+
+	</body>
+	</html>
