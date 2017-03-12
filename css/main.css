@@ -12,7 +12,9 @@
 /*logo部分*/
 .topBar{
 	height: 86px;
+	width: 1350	px;
 	background-color: #1d7ad9;
+
 }
 .logo a{
     display: block;
@@ -71,7 +73,7 @@
 /*导航区域*/
 .nav{
 	height: 36px;
-	width: 100%;
+	width: 1350px;
 	background-color: #1369c0;
 }
 .nav-right{
@@ -409,7 +411,7 @@ right: 20px;
 }
 .footer{
 	height: 230px;
-	width: 100%;
+	width: 1350px;
 	background-color: #d4d4d4;
 	text-align: center;
 	font-size: 12px;
